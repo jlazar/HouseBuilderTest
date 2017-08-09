@@ -1,22 +1,34 @@
 var ageEle = document.forms[0].elements['age'],
     relEle = document.forms[0].elements['rel'],
-    smokerEle = document.forms[0].elements['smoker'];
+    smokerEle = document.forms[0].elements['smoker'],
+    errorMsgMap = {
+        age: new errorMessage(ageEle.parentNode),
+        rel: new errorMessage(relEle.parentNode)
+    };
 
 //add event listener
-ageEle.addEventListener('input', ageChange);
-var ageErrorMsg = new errorMessage(ageEle.parentNode);
+ageEle.addEventListener('input', numericCheck);
+
 addCSSToDom();
 
-
-function ageChange() {
-    if (isNaN(ageEle.value)) {
-        ageErrorMsg.display('Age field should be numeric')
+function numericCheck() {
+    if (isNaN(this.value)) {
+        errorMsgMap[this.name].display(this.name + ' field should be numeric')
     } else {
-        ageErrorMsg.hide();
-        if (ageEle.value !== '') {
-            ageEle.value = Math.round(ageEle.value);
+        errorMsgMap[this.name].hide();
+        if (this.value !== '') {
+            this.value = Math.round(ageEle.value);
         }
     }
+}
+
+function checkRequired(ele) {
+    if(ele.value && ele.value.length > 0) {
+        errorMsgMap[ele.name].hide();
+        return true;
+    }
+    errorMsgMap[ele.name].display('This field is required');
+    return false;
 }
 
 function errorMessage(parent) {
@@ -37,9 +49,6 @@ function errorMessage(parent) {
             this.displayed = false;
         }
     }
-}
-function displayError(html) {
-    error.innerHTML = html
 }
 
 function addCSSToDom() {
