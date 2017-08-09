@@ -8,12 +8,14 @@ var ageEle = document.forms[0].elements['age'],
 
 //add event listener
 ageEle.addEventListener('input', numericCheck);
+relEle.addEventListener('change', emptyCheck);
 
 addCSSToDom();
+// requiredCheck(relEle);
 
 function numericCheck() {
     if (isNaN(this.value)) {
-        errorMsgMap[this.name].display(this.name + ' field should be numeric')
+        errorMsgMap[this.name].display('This field should be numeric');
     } else {
         errorMsgMap[this.name].hide();
         if (this.value !== '') {
@@ -22,8 +24,14 @@ function numericCheck() {
     }
 }
 
-function checkRequired(ele) {
-    if(ele.value && ele.value.length > 0) {
+function emptyCheck() {
+    if (this.value && this.value.length > 0) {
+        errorMsgMap[this.name].hide();
+    }
+}
+
+function requiredCheck(ele) {
+    if (ele.value && ele.value.length > 0) {
         errorMsgMap[ele.name].hide();
         return true;
     }
