@@ -1,14 +1,36 @@
-var ageEle = document.forms[0].elements['age'],
-    relEle = document.forms[0].elements['rel'],
-    smokerEle = document.forms[0].elements['smoker'],
+var form = document.forms[0],
+    ageEle = form.elements['age'],
+    relEle = form.elements['rel'],
+    smokerEle = form.elements['smoker'],
     errorMsgMap = {
         age: new errorMessage(ageEle.parentNode),
         rel: new errorMessage(relEle.parentNode)
-    };
+    },
+    household = {};
 
 //add event listener
-ageEle.addEventListener('input', numericCheck);
-relEle.addEventListener('change', emptyCheck);
+addEvent(ageEle, 'input', numericCheck);
+addEvent(relEle, 'change', emptyCheck);
+addEvent(form, 'add', test);
+addEvent(form, 'submit', test);
+
+function addEvent(element, evnt, funct) {
+    if (element.attachEvent)
+        return element.attachEvent('on' + evnt, funct);
+    else
+        return element.addEventListener(evnt, funct, false);
+}
+
+
+function test() {
+    if (e.preventDefault) e.preventDefault();
+    console.log('test');
+    return false;
+}
+
+function submit() {
+    console.log('test');
+}
 
 addCSSToDom();
 // requiredCheck(relEle);
