@@ -11,8 +11,10 @@ var form = document.forms[0],
 //add event listener
 addEvent(ageEle, 'input', numericCheck);
 addEvent(relEle, 'change', emptyCheck);
-addEvent(form, 'add', test);
-addEvent(form, 'submit', test);
+
+//add button actions
+form.querySelector('.add').onclick = add;
+form.querySelector('button[type="submit"]').onclick = submit;
 
 function addEvent(element, evnt, funct) {
     if (element.attachEvent)
@@ -21,15 +23,14 @@ function addEvent(element, evnt, funct) {
         return element.addEventListener(evnt, funct, false);
 }
 
-
-function test() {
-    if (e.preventDefault) e.preventDefault();
-    console.log('test');
+function add(e) {
+    console.log(e);
     return false;
 }
 
-function submit() {
-    console.log('test');
+function submit(e) {
+    console.log(e);
+    return false;
 }
 
 addCSSToDom();
